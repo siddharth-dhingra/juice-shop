@@ -69,8 +69,10 @@ router.post('/', async (req: Request<Record<string, unknown>, Record<string, unk
       const filePath: string = path.resolve(req.body.layout).toLowerCase()
       const isForbiddenFile: boolean = (filePath.includes('ftp') || filePath.includes('ctf.key') || filePath.includes('encryptionkeys'))
       if (!isForbiddenFile) {
+        const { email, securityAnswer } = req.body;
         res.render('dataErasureResult', {
-          ...req.body
+          email,
+          securityAnswer
         }, (error, html) => {
           if (!html || error) {
             next(new Error(error.message))
@@ -84,8 +86,10 @@ router.post('/', async (req: Request<Record<string, unknown>, Record<string, unk
         next(new Error('File access not allowed'))
       }
     } else {
+      const { email, securityAnswer } = req.body;
       res.render('dataErasureResult', {
-        ...req.body
+        email,
+        securityAnswer
       })
     }
   } catch (error) {
